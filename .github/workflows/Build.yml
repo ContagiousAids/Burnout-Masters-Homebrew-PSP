@@ -1,32 +1,30 @@
-
 name: Build Burnout Masters PSP
 
 on:
   workflow_dispatch:
-    push:
-        branches:
-              - main
+  push:
+    branches:
+      - main
 
-              jobs:
-                build:
-                    runs-on: ubuntu-latest
-                        container:
-                              image: pspdev/pspdev:latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: pspdev/pspdev:latest
 
-                                  steps:
-                                        - name: Download source
-                                                uses: actions/checkout@v4
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
 
-                                                      - name: Check PSP compiler
-                                                              run: psp-gcc --version
+      - name: Check PSP compiler
+        run: psp-gcc --version
 
-                                                                    - name: Compile game
-                                                                            run: make
+      - name: Compile game
+        run: make
 
-                                                                                  - name: Package EBOOT
-                                                                                          uses: actions/upload-artifact@v4
-                                                                                                  with:
-                                                                                                            name: Burnout-Masters-PSP
-                                                                                                                      path: EBOOT.PBP
-                                                                                                                                if-no-files-found: error
-                                                                                                                                
+      - name: Package EBOOT
+        uses: actions/upload-artifact@v4
+        with:
+          name: Burnout-Masters-PSP
+          path: EBOOT.PBP
+          if-no-files-found: error
